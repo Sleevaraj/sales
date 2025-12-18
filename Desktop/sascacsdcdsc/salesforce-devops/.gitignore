@@ -1,0 +1,10 @@
+# Ignore Salesforce org and cache
+.sfdx/
+.sf/
+
+# Ignore node_modules (if using any JS)
+node_modules/
+
+# Ignore OS files
+.DS_Store
+Thumbs.db
