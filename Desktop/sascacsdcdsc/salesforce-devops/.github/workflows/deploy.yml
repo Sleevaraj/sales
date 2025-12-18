@@ -1,0 +1,25 @@
+name: Salesforce CI/CD
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v3
+
+    - name: Install Salesforce CLI
+      run: |
+        curl -sSL https://developer.salesforce.com/media/salesforce-cli/sf-cli/channels/stable/sf-linux-amd64.tar.xz | tar xJ
+        ./sf/install
+
+    - name: Authenticate to Salesforce
+      run: sf auth:sfdxurl:store --sfdxurlfile ./auth/dev.sfdx --set-default --alias ci-dev
+
+    - name: Deploy to Salesforce
+      run: sf project deploy start --source-dir force-app --target-org ci-dev --test-level RunLocalTests
