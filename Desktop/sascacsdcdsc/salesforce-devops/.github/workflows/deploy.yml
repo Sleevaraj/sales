@@ -23,3 +23,10 @@ jobs:
 
     - name: Deploy to Salesforce
       run: sf project deploy start --source-dir force-app --target-org ci-dev --test-level RunLocalTests
+
+      - name: Authenticate to Salesforce
+  run: |
+    mkdir -p auth
+    echo "${{ secrets.SFDX_AUTH_URL }}" > ./auth/dev.sfdx
+    sf auth:sfdxurl:store --sfdx-url-file ./auth/dev.sfdx --set-default --alias ci-dev
+
